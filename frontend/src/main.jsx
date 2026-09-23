@@ -8,6 +8,17 @@ import store from './redux/store.js'
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from './components/theme-provider.jsx'
+import axios from 'axios'
+
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 
 const persistor = persistStore(store);
 

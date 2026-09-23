@@ -112,6 +112,7 @@ export const login = async (req, res) => {
         }).json({
             message: `Welcome back ${user.fullname}`,
             user,
+            token,
             success: true
         })
     } catch (error) {
@@ -157,7 +158,7 @@ export const updateProfile = async (req, res) => {
         if(skills){
             skillsArray = skills.split(",");
         }
-        const userId = req.id; // middleware authentication
+        const userId = req.id; 
         let user = await User.findById(userId);
 
         if (!user) {
