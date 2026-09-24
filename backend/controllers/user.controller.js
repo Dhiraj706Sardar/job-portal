@@ -204,3 +204,74 @@ export const updateProfile = async (req, res) => {
         });
     }
 }
+
+export const toggleBookmark = async (req, res) => {
+    try {
+        const userId = req.id;
+        const jobId = req.params.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        if (!user.profile.bookmarks) {
+            user.profile.bookmarks = [];
+        }
+
+        const isBookmarked = user.profile.bookmarks.some(b => b.toString() === jobId);
+        if (isBookmarked) {
+            user.profile.bookmarks = user.profile.bookmarks.filter(b => b.toString() !== jobId);
+        } else {
+            user.profile.bookmarks.push(jobId);
+        }
+
+        await user.save();
+
+        return res.status(200).json({
+            message: isBookmarked ? "Job removed from bookmarks" : "Job saved to bookmarks",
+            isBookmarked: !isBookmarked,
+            bookmarks: user.profile.bookmarks,
+            success: true
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
+    }
+};
+
+export const getBookmarks = async (req, res) => {
+    try {
+        const userId = req.id;
+        const user = await User.findById(userId).populate({
+            path: 'profile.bookmarks',
+            populate: {
+                path: 'company'
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            bookmarks: user.profile?.bookmarks || [],
+            success: true
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
+    }
+};

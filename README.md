@@ -1,4 +1,4 @@
-# 💼 Full-Stack MERN Job Portal
+# Full-Stack MERN Job Portal
 
 [![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue?style=for-the-badge&logo=react)](https://github.com/Dhiraj706Sardar/job-portal)
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
@@ -7,92 +7,82 @@
 [![MongoDB](https://img.shields.io/badge/Database-MongoDB%20%2B%20Mongoose-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 [![License](https://img.shields.io/badge/License-ISC-orange?style=for-the-badge)](#license)
 
-A modern, production-ready **Full-Stack Job Portal** application built using **MongoDB, Express.js, React.js (Vite), and Node.js**. It bridges the gap between aspiring candidates and hiring companies with role-based authentication, real-time job application workflows, resume uploads via Cloudinary, and administrative dashboards.
+A full-stack job portal built with MongoDB, Express, React (Vite), and Node. It connects job seekers with recruiters through role-based accounts, a working application pipeline, resume uploads handled through Cloudinary, and dashboards for managing postings and candidates.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [Features](#-features)
-  - [Candidate / Job Seeker Features](#-candidate--job-seeker-features)
-  - [Recruiter / Employer Features](#-recruiter--employer-features)
-  - [Security & Authentication](#-security--authentication)
-  - [Mock Data Generation](#-automated-data-seeding)
-- [Tech Stack](#-tech-stack)
-- [Folder Structure](#-folder-structure)
-- [API Endpoints Reference](#-api-endpoints-reference)
+- [Features](#features)
+  - [For Candidates](#for-candidates)
+  - [For Recruiters](#for-recruiters)
+  - [Security and Authentication](#security-and-authentication)
+  - [Sample Data Seeding](#sample-data-seeding)
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [API Reference](#api-reference)
   - [User Routes](#user-routes-apiv1user)
   - [Company Routes](#company-routes-apiv1company)
   - [Job Routes](#job-routes-apiv1job)
   - [Application Routes](#application-routes-apiv1application)
-- [Environment Variables](#-environment-variables)
-- [Installation & Getting Started](#-installation--getting-started)
+- [Environment Variables](#environment-variables)
+- [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [1. Clone the Repository](#1-clone-the-repository)
   - [2. Backend Setup](#2-backend-setup)
   - [3. Frontend Setup](#3-frontend-setup)
-  - [4. Seed Database (Optional)](#4-database-seeding-optional)
-- [Available Scripts](#-available-scripts)
-- [Contributing](#-contributing)
-- [License](#-license)
+  - [4. Seed the Database (Optional)](#4-seed-the-database-optional)
+- [Available Scripts](#available-scripts)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 🌟 Features
+## Features
 
-### 👨‍🎓 Candidate / Job Seeker Features
-- **Hero & Landing Experience**: Interactive category carousels, latest job cards, and keyword search.
-- **Job Discovery & Filtering**: Search and filter jobs by location, industry/technology, salary range, and job type (Full-time, Part-time, Remote, Internship).
-- **Job Details View**: Detailed view of job specifications, requirements, salary (LPA), experience level, and company profile.
-- **One-Click Application**: Apply directly for listed openings with instant feedback and duplicate application prevention.
-- **Profile Management**: Update contact details, bio, skills, profile picture, and upload a PDF resume.
-- **Application History**: Track applied jobs with live status indicators (`Pending`, `Accepted`, `Rejected`).
+### For Candidates
 
-### 🏢 Recruiter / Employer Features
-- **Role-Based Protected Access**: Exclusive recruiter dashboard guarded by authentication middleware.
-- **Company Management**: Register company profiles, set descriptions, website URLs, locations, and upload logos.
-- **Job Posting & Management**: Post new job listings with customizable experience requirements, openings count, salary, requirements list, and employment types.
-- **Applicant Tracking System (ATS)**:
-  - View all applicants per posted job.
-  - Review candidate profile details, contact info, and downloadable resumes.
-  - Update candidate status dynamically (`Accepted` / `Rejected`).
+Job seekers get a landing page with category carousels and a keyword search, plus filtering by location, industry, salary range, and job type — full-time, part-time, remote, or internship. Each job listing page lays out the role's requirements, salary in LPA, experience level, and the hiring company's profile. Applying takes one click, with instant feedback and a check to stop someone applying twice for the same role. Candidates can also keep their profile current — contact details, a short bio, skills, a profile photo, and a PDF resume — and track every application's status (pending, accepted, or rejected) from one place.
 
-### 🔐 Security & Authentication
-- Secure JWT (JSON Web Token) authentication stored in HTTP-only cookies.
-- Password hashing with **bcryptjs**.
-- Protected API routes and React Router client-side route guards.
-- Media and resume uploads processed with **Multer** and securely stored on **Cloudinary** using DataURI buffers.
+### For Recruiters
 
-### 🎲 Automated Data Seeding
-- Includes a dedicated Faker.js script (`seed.js`) capable of automatically generating **100 realistic companies** and **100 categorized jobs** linked to a recruiter account.
+Recruiters work from a dashboard that's locked behind authentication, separate from the candidate-facing side of the app. From there they can register a company profile with a description, website, location, and logo, then post job openings with details like experience level, number of openings, salary, requirements, and employment type. For each posting, recruiters can see everyone who applied, review their profile and contact info, download resumes, and mark applicants as accepted or rejected.
+
+### Security and Authentication
+
+Authentication runs on JWTs stored in HTTP-only cookies, with passwords hashed using bcryptjs. API routes are protected on the backend, and the frontend mirrors this with route guards in React Router. File uploads — profile photos, resumes, company logos — go through Multer, get converted with DataURI, and are stored on Cloudinary.
+
+### Sample Data Seeding
+
+A Faker.js script (`seed.js`) is included for generating test data — 100 companies and 100 jobs, all linked to a recruiter account, so you don't have to populate the database by hand while developing.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-### Frontend
-- **Framework**: [React 18](https://react.dev/) via [Vite](https://vitejs.dev/)
-- **State Management**: [Redux Toolkit](https://redux-toolkit.js.org/) + [Redux Persist](https://github.com/rt2zz/redux-persist)
-- **Routing**: [React Router DOM v6](https://reactrouter.com/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with `@tailwindcss/animate`
-- **Component Primitives**: [Radix UI](https://www.radix-ui.com/) / [Shadcn UI](https://ui.shadcn.com/)
-- **Icons & Motion**: [Lucide React](https://lucide.dev/), [Framer Motion](https://www.framer.com/motion/)
-- **Notifications**: [Sonner](https://sonner.emilkowal.ski/)
-- **HTTP Client**: [Axios](https://axios-http.com/)
+**Frontend**
+- React 18, built with Vite
+- Redux Toolkit and Redux Persist for state
+- React Router DOM v6
+- Tailwind CSS, with `@tailwindcss/animate`
+- Radix UI / Shadcn UI for component primitives
+- Lucide React for icons, Framer Motion for animation
+- Sonner for notifications
+- Axios for HTTP requests
 
-### Backend
-- **Runtime**: [Node.js](https://nodejs.org/) (ES Modules)
-- **Framework**: [Express.js](https://expressjs.com/)
-- **Database**: [MongoDB](https://www.mongodb.com/) with [Mongoose ODM](https://mongoosejs.com/)
-- **Authentication**: `jsonwebtoken` (JWT) & `cookie-parser`
-- **Password Security**: `bcryptjs`
-- **File Uploads**: `multer` + `datauri` + `cloudinary`
-- **Mock Data**: `@faker-js/faker`
-- **Dev Tooling**: `nodemon`, `dotenv`, `cors`
+**Backend**
+- Node.js (ES Modules)
+- Express.js
+- MongoDB with Mongoose
+- JWT authentication via `jsonwebtoken` and `cookie-parser`
+- Password hashing with `bcryptjs`
+- File uploads via `multer`, `datauri`, and `cloudinary`
+- Mock data generation with `@faker-js/faker`
+- `nodemon`, `dotenv`, and `cors` for development
 
 ---
 
-## 📂 Folder Structure
+## Folder Structure
 
 ```text
 job-portal/
@@ -153,47 +143,51 @@ job-portal/
 
 ---
 
-## 📡 API Endpoints Reference
+## API Reference
 
 Base URL: `http://localhost:3000/api/v1`
 
 ### User Routes (`/api/v1/user`)
+
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/register` | Register a new user (`student` or `recruiter`) with avatar | Public |
-| `POST` | `/login` | Authenticate user & set JWT cookie | Public |
-| `GET` | `/logout` | Clear auth token cookie | Public |
+| `POST` | `/register` | Register a new user (student or recruiter) with an avatar | Public |
+| `POST` | `/login` | Log in and receive a JWT cookie | Public |
+| `GET` | `/logout` | Clear the auth cookie | Public |
 | `POST` | `/profile/update` | Update bio, skills, profile photo, and resume | Authenticated |
 
 ### Company Routes (`/api/v1/company`)
+
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/register` | Register a new company | Recruiter |
-| `GET` | `/get` | Get all companies registered by logged-in recruiter | Recruiter |
-| `GET` | `/get/:id` | Get company details by ID | Recruiter |
-| `PUT` | `/update/:id` | Update company information and upload logo | Recruiter |
+| `GET` | `/get` | List companies registered by the logged-in recruiter | Recruiter |
+| `GET` | `/get/:id` | Get details for a specific company | Recruiter |
+| `PUT` | `/update/:id` | Update company info and upload a logo | Recruiter |
 
 ### Job Routes (`/api/v1/job`)
+
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/post` | Create and post a new job listing | Recruiter |
-| `GET` | `/get` | Get all jobs (supports search keyword queries) | Public |
-| `GET` | `/getadminjobs` | Get all jobs posted by logged-in recruiter | Recruiter |
-| `GET` | `/get/:id` | Get job details by ID | Public |
+| `POST` | `/post` | Create a new job listing | Recruiter |
+| `GET` | `/get` | List all jobs, with support for keyword search | Public |
+| `GET` | `/getadminjobs` | List jobs posted by the logged-in recruiter | Recruiter |
+| `GET` | `/get/:id` | Get details for a specific job | Public |
 
 ### Application Routes (`/api/v1/application`)
+
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/apply/:id` | Apply for a specific job | Candidate |
-| `GET` | `/get` | Get all applied jobs for logged-in user | Candidate |
-| `GET` | `/:id/applicants`| Get all applicants for a specific job | Recruiter |
-| `POST` | `/status/:id/update`| Update applicant status (`accepted` or `rejected`) | Recruiter |
+| `GET` | `/apply/:id` | Apply for a job | Candidate |
+| `GET` | `/get` | List jobs the logged-in user has applied to | Candidate |
+| `GET` | `/:id/applicants` | List applicants for a specific job | Recruiter |
+| `POST` | `/status/:id/update` | Update an applicant's status (accepted or rejected) | Recruiter |
 
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
-Create a `.env` file in the `backend/` directory:
+Create a `.env` file inside `backend/`:
 
 ```env
 # Server Port
@@ -213,108 +207,106 @@ API_SECRET=your_cloudinary_api_secret
 
 ---
 
-## 🚀 Installation & Getting Started
+## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas URI)
-- [Cloudinary](https://cloudinary.com/) free account for media storage
 
----
+- Node.js, version 18 or higher
+- MongoDB, either a local instance or an Atlas connection string
+- A free Cloudinary account for storing media
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Dhiraj706Sardar/job-portal.git
 cd job-portal
 ```
 
----
-
 ### 2. Backend Setup
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create your `.env` file and fill in your MongoDB and Cloudinary credentials:
-   ```bash
-   cp .env.example .env # Or manually create backend/.env
-   ```
-4. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
-   *The server will start on `http://localhost:3000`.*
 
----
+```bash
+cd backend
+npm install
+```
+
+Create your `.env` file and fill in your MongoDB and Cloudinary credentials:
+
+```bash
+cp .env.example .env # or create backend/.env manually
+```
+
+Then start the backend:
+
+```bash
+npm run dev
+```
+
+The server runs on `http://localhost:3000`.
 
 ### 3. Frontend Setup
-1. Open a new terminal and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the Vite development server:
-   ```bash
-   npm run dev
-   ```
-   *The client app will launch at `http://localhost:5173`.*
+
+In a new terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The app launches at `http://localhost:5173`.
+
+### 4. Seed the Database (Optional)
+
+To quickly populate the database with 100 companies and 100 jobs:
+
+1. Register at least one recruiter account through the web UI first.
+2. From the `backend/` folder, run:
+
+```bash
+npm run seed
+```
+
+To wipe existing mock data and start fresh:
+
+```bash
+npm run seed -- --clean
+```
 
 ---
 
-### 4. Database Seeding (Optional)
-To quickly populate the database with **100 realistic companies** and **100 jobs**:
+## Available Scripts
 
-1. Ensure at least one recruiter account is registered via the web UI.
-2. Run the seed command inside the `backend/` folder:
-   ```bash
-   cd backend
-   npm run seed
-   ```
-3. To wipe existing mock jobs/companies and re-seed from scratch:
-   ```bash
-   npm run seed -- --clean
-   ```
+**Backend (`/backend`)**
 
----
-
-## 📜 Available Scripts
-
-### Backend (`/backend`)
 | Command | Action |
 | :--- | :--- |
-| `npm run dev` | Starts backend server with `nodemon` for auto-restarts |
-| `npm run seed` | Seeds database with 100 Faker companies & 100 jobs |
-| `npm run seed -- --clean` | Clears existing jobs/companies and seeds fresh data |
+| `npm run dev` | Starts the backend with `nodemon` for auto-restarts |
+| `npm run seed` | Seeds the database with 100 companies and 100 jobs |
+| `npm run seed -- --clean` | Clears existing jobs and companies, then reseeds |
 
-### Frontend (`/frontend`)
+**Frontend (`/frontend`)**
+
 | Command | Action |
 | :--- | :--- |
-| `npm run dev` | Starts Vite local development server with hot-reload |
-| `npm run build` | Compiles and optimizes assets for production deployment |
+| `npm run dev` | Starts the Vite dev server with hot reload |
+| `npm run build` | Builds and optimizes assets for production |
 | `npm run preview` | Previews the production build locally |
-| `npm run lint` | Runs ESLint analysis across the codebase |
+| `npm run lint` | Runs ESLint across the codebase |
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are all welcome.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add some AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a pull request
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the **ISC License**.
+This project is licensed under the ISC License.

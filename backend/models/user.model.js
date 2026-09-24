@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema({
         profilePhoto:{
             type:String,
             default:""
-        }
+        },
+        bookmarks: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Job'
+        }]
     },
 },{timestamps:true});
 export const User = mongoose.model('User', userSchema);

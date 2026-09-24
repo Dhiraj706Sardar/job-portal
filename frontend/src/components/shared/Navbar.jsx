@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Avatar, AvatarImage } from '../ui/avatar';
-import { LogOut, User2, Menu, X, Briefcase } from 'lucide-react';
+import { LogOut, User2, Menu, X, Briefcase, Bookmark } from 'lucide-react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -110,13 +110,22 @@ const Navbar = () => {
                                 </div>
                                 <div className='pt-3 space-y-1'>
                                     {user && user.role === 'student' && (
-                                        <Link 
-                                            to="/profile" 
-                                            className='flex items-center gap-2.5 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors font-medium'
-                                        >
-                                            <User2 className='w-4 h-4 text-slate-500 dark:text-slate-400' />
-                                            <span>View Profile</span>
-                                        </Link>
+                                        <>
+                                            <Link 
+                                                to="/profile" 
+                                                className='flex items-center gap-2.5 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors font-medium'
+                                            >
+                                                <User2 className='w-4 h-4 text-slate-500 dark:text-slate-400' />
+                                                <span>View Profile</span>
+                                            </Link>
+                                            <Link 
+                                                to="/profile?tab=saved" 
+                                                className='flex items-center gap-2.5 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors font-medium'
+                                            >
+                                                <Bookmark className='w-4 h-4 text-slate-500 dark:text-slate-400' />
+                                                <span>Saved Jobs</span>
+                                            </Link>
+                                        </>
                                     )}
                                     <button 
                                         onClick={logoutHandler}
@@ -220,16 +229,32 @@ const Navbar = () => {
                                 </Link>
                             </>
                         ) : (
-                            <Button 
-                                variant="outline" 
-                                onClick={() => {
-                                    setMobileMenuOpen(false);
-                                    logoutHandler();
-                                }} 
-                                className='w-full rounded-xl text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50 hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                            >
-                                <LogOut className='w-4 h-4 mr-2' /> Logout
-                            </Button>
+                            <>
+                                {user.role === 'student' && (
+                                    <>
+                                        <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                                            <Button variant="outline" className='w-full rounded-xl dark:border-slate-800 justify-start gap-2'>
+                                                <User2 className='w-4 h-4' /> Profile
+                                            </Button>
+                                        </Link>
+                                        <Link to="/profile?tab=saved" onClick={() => setMobileMenuOpen(false)}>
+                                            <Button variant="outline" className='w-full rounded-xl dark:border-slate-800 justify-start gap-2'>
+                                                <Bookmark className='w-4 h-4' /> Saved Jobs
+                                            </Button>
+                                        </Link>
+                                    </>
+                                )}
+                                <Button 
+                                    variant="outline" 
+                                    onClick={() => {
+                                        setMobileMenuOpen(false);
+                                        logoutHandler();
+                                    }} 
+                                    className='w-full rounded-xl text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                >
+                                    <LogOut className='w-4 h-4 mr-2' /> Logout
+                                </Button>
+                            </>
                         )}
                     </div>
                 </div>

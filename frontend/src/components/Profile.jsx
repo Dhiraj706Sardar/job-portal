@@ -1,22 +1,34 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Navbar from './shared/Navbar'
 import Footer from './shared/Footer'
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { Button } from './ui/button'
-import { Contact, Mail, Pen, FileText, Download } from 'lucide-react'
+import { Contact, Mail, Pen, FileText, Download, Bookmark } from 'lucide-react'
 import { Badge } from './ui/badge'
 import { Label } from './ui/label'
 import AppliedJobTable from './AppliedJobTable'
+import SavedJobTable from './SavedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
+import useBookmarks from '@/hooks/useBookmarks'
 
 const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false);
     const { user } = useSelector(store => store.auth);
+    const { allAppliedJobs } = useSelector(store => store.job);
+    const { bookmarks = [] } = useBookmarks();
+    const [searchParams] = useSearchParams();
+    const [activeTab, setActiveTab] = useState(searchParams.get('tab') === 'saved' ? 'saved' : 'applied');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (searchParams.get('tab') === 'saved') {
+            setActiveTab('saved');
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         if (!user) {
@@ -124,14 +136,48 @@ const Profile = () => {
                     </div>
                 </div>
 
-                {/* Applied Jobs Section */}
-                <div className='bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm transition-colors space-y-4'>
-                    <div className='flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800'>
-                        <h2 className='text-xl font-bold text-slate-900 dark:text-slate-100'>
-                            Applied Jobs
-                        </h2>
+                {/* Jobs Section: Applied Jobs & Saved Jobs */}
+                <div className='bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm transition-colors space-y-5'>
+                    <div className='flex items-center gap-6 pb-2 border-b border-slate-100 dark:border-slate-800'>
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('applied')}
+                            className={`flex items-center gap-2 pb-3 font-bold text-base transition-all relative ${
+                                activeTab === 'applied'
+                                    ? 'text-indigo-600 dark:text-indigo-400'
+                                    : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                            }`}
+                        >
+                            <span>Applied Jobs</span>
+                            <Badge variant="secondary" className={`text-xs px-2 py-0.5 rounded-full ${activeTab === 'applied' ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300' : ''}`}>
+                                {allAppliedJobs?.length || 0}
+                            </Badge>
+                            {activeTab === 'applied' && (
+                                <div className='absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full' />
+                            )}
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('saved')}
+                            className={`flex items-center gap-2 pb-3 font-bold text-base transition-all relative ${
+                                activeTab === 'saved'
+                                    ? 'text-indigo-600 dark:text-indigo-400'
+                                    : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                            }`}
+                        >
+                            <Bookmark className='w-4 h-4' />
+                            <span>Saved Jobs</span>
+                            <Badge variant="secondary" className={`text-xs px-2 py-0.5 rounded-full ${activeTab === 'saved' ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300' : ''}`}>
+                                {bookmarks?.length || 0}
+                            </Badge>
+                            {activeTab === 'saved' && (
+                                <div className='absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full' />
+                            )}
+                        </button>
                     </div>
-                    <AppliedJobTable />
+
+                    {activeTab === 'applied' ? <AppliedJobTable /> : <SavedJobTable />}
                 </div>
             </div>
 

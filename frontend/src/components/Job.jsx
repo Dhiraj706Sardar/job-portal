@@ -1,15 +1,15 @@
-import { useState } from 'react';
 import { Button } from './ui/button';
 import { Bookmark, MapPin } from 'lucide-react';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import useBookmarks from '@/hooks/useBookmarks';
 
 const Job = ({ job: propJob, jobs }) => {
     const job = propJob || jobs;
     const navigate = useNavigate();
-    const [isBookmarked, setIsBookmarked] = useState(false);
+    const { isBookmarked: checkBookmarked, toggleBookmark } = useBookmarks();
+    const isBookmarked = checkBookmarked(job?._id);
 
     const daysAgoFunction = (mongodbTime) => {
         if (!mongodbTime) return "Recently";
@@ -23,14 +23,7 @@ const Job = ({ job: propJob, jobs }) => {
     };
 
     const handleBookmark = (e) => {
-        e.stopPropagation();
-        const nextState = !isBookmarked;
-        setIsBookmarked(nextState);
-        if (nextState) {
-            toast.success(`Saved "${job?.title}" to bookmarks!`);
-        } else {
-            toast.info(`Removed "${job?.title}" from bookmarks.`);
-        }
+        toggleBookmark(job, e);
     };
 
     return (
@@ -39,7 +32,6 @@ const Job = ({ job: propJob, jobs }) => {
             className='p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-600/70 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between cursor-pointer group'
         >
             <div>
-                {/* Header: Date & Bookmark */}
                 <div className='flex items-center justify-between'>
                     <span className='text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full'>
                         {daysAgoFunction(job?.createdAt)}
@@ -58,7 +50,6 @@ const Job = ({ job: propJob, jobs }) => {
                     </Button>
                 </div>
 
-                {/* Company Info */}
                 <div className='flex items-center gap-3 my-3'>
                     <Avatar className='w-10 h-10 border border-slate-100 dark:border-slate-800 shadow-sm flex-shrink-0'>
                         <AvatarImage src={job?.company?.logo} alt={job?.company?.name} />

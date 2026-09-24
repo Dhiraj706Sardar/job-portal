@@ -9,14 +9,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import Navbar from './shared/Navbar';
 import Footer from './shared/Footer';
-import { ArrowLeft, MapPin, Briefcase, Calendar, Users, DollarSign, Award, ExternalLink } from 'lucide-react';
+import { ArrowLeft, MapPin, Briefcase, Calendar, Users, DollarSign, Award, ExternalLink, Bookmark } from 'lucide-react';
 import { Avatar, AvatarImage } from './ui/avatar';
+import useBookmarks from '@/hooks/useBookmarks';
 
 const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth);
     const [isApplied, setIsApplied] = useState(false);
     const [loading, setLoading] = useState(true);
+    const { isBookmarked: checkBookmarked, toggleBookmark } = useBookmarks();
+    const isBookmarked = checkBookmarked(singleJob?._id);
 
     const params = useParams();
     const jobId = params.id;
@@ -135,18 +138,35 @@ const JobDescription = () => {
                                         </div>
                                     </div>
 
-                                    <Button
-                                        onClick={isApplied ? null : applyJobHandler}
-                                        disabled={isApplied}
-                                        size="lg"
-                                        className={`rounded-xl font-semibold shadow-md transition-all self-start sm:self-center px-6 py-2.5 ${
-                                            isApplied 
-                                                ? 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed hover:bg-slate-200 dark:hover:bg-slate-800 shadow-none' 
-                                                : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/25 active:scale-95'
-                                        }`}
-                                    >
-                                        {isApplied ? 'Already Applied' : 'Apply Now'}
-                                    </Button>
+                                    <div className='flex items-center gap-3 self-start sm:self-center'>
+                                        <Button
+                                            onClick={(e) => toggleBookmark(singleJob, e)}
+                                            variant="outline"
+                                            size="lg"
+                                            className={`rounded-xl font-semibold border transition-all px-4 py-2.5 flex items-center gap-2 ${
+                                                isBookmarked
+                                                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50'
+                                                    : 'border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                                            }`}
+                                            title={isBookmarked ? "Remove from bookmarks" : "Save to bookmarks"}
+                                        >
+                                            <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-indigo-600 dark:fill-indigo-400' : ''}`} />
+                                            <span>{isBookmarked ? 'Saved' : 'Save'}</span>
+                                        </Button>
+
+                                        <Button
+                                            onClick={isApplied ? null : applyJobHandler}
+                                            disabled={isApplied}
+                                            size="lg"
+                                            className={`rounded-xl font-semibold shadow-md transition-all px-6 py-2.5 ${
+                                                isApplied 
+                                                    ? 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed hover:bg-slate-200 dark:hover:bg-slate-800 shadow-none' 
+                                                    : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/25 active:scale-95'
+                                            }`}
+                                        >
+                                            {isApplied ? 'Already Applied' : 'Apply Now'}
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 {/* Job Details */}
