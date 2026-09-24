@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from './shared/Navbar'
+import Footer from './shared/Footer'
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { Button } from './ui/button'
 import { Contact, Mail, Pen, FileText, Download } from 'lucide-react'
@@ -14,13 +16,20 @@ const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false);
     const { user } = useSelector(store => store.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/login?role=student");
+        }
+    }, [user, navigate]);
 
     const isResume = Boolean(user?.profile?.resume);
 
     return (
-        <div className='min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 pb-16'>
+        <div className='min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300'>
             <Navbar />
-            <div className='max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8'>
+            <div className='max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8 flex-1 w-full'>
                 {/* Profile Information Card */}
                 <div className='bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm transition-colors relative overflow-hidden'>
                     <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-6'>
@@ -126,6 +135,7 @@ const Profile = () => {
                 </div>
             </div>
 
+            <Footer />
             <UpdateProfileDialog open={open} setOpen={setOpen} />
         </div>
     )

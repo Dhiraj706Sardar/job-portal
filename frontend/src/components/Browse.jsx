@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Navbar from './shared/Navbar';
+import Footer from './shared/Footer';
 import Job from './Job';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
@@ -34,7 +35,6 @@ const Browse = () => {
         <div className='min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors'>
             <Navbar />
             <div className='w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-8 flex-1'>
-                {/* Search Bar Header */}
                 <div className='bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm mb-8 transition-colors'>
                     <form onSubmit={handleSearch} className='flex flex-col sm:flex-row items-center gap-3'>
                         <div className='relative flex-1 w-full'>
@@ -68,7 +68,6 @@ const Browse = () => {
                     </form>
                 </div>
 
-                {/* Results Header */}
                 <div className='flex items-center justify-between mb-6'>
                     <div>
                         <h1 className='text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white'>Search Results</h1>
@@ -79,7 +78,6 @@ const Browse = () => {
                     </div>
                 </div>
 
-                {/* Jobs Grid or Empty State */}
                 {!allJobs || allJobs.length === 0 ? (
                     <div className='bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-12 text-center shadow-sm flex flex-col items-center justify-center my-6'>
                         <div className='w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4'>
@@ -106,6 +104,7 @@ const Browse = () => {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 };

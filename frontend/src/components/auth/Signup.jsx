@@ -3,7 +3,7 @@ import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
@@ -12,17 +12,27 @@ import { setLoading } from '@/redux/authSlice'
 import { Loader2, Lock, Mail, Phone, User, UserCheck, Briefcase, Upload } from 'lucide-react'
 
 const Signup = () => {
+    const [searchParams] = useSearchParams();
+    const initialRole = searchParams.get('role') === 'recruiter' ? 'recruiter' : 'student';
+
     const [input, setInput] = useState({
         fullname: "",
         email: "",
         phoneNumber: "",
         password: "",
-        role: "student",
+        role: initialRole,
         file: ""
     });
     const { loading, user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const roleParam = searchParams.get('role');
+        if (roleParam === 'recruiter' || roleParam === 'student') {
+            setInput(prev => ({ ...prev, role: roleParam }));
+        }
+    }, [searchParams]);
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });

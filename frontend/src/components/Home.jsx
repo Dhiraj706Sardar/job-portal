@@ -18,11 +18,13 @@ const Home = () => {
     }
   }, [user?.role, navigate]);
   return (
-    <div>
+    <div className='min-h-screen flex flex-col bg-white dark:bg-slate-950 transition-colors'>
       <Navbar />
-      <HeroSection />
-      <CategoryCarousel />
-      <LatestJobs />
+      <main className='flex-1'>
+        <HeroSection />
+        <CategoryCarousel />
+        <LatestJobs />
+      </main>
       <Footer />
     </div>
   )

@@ -8,6 +8,7 @@ import { setSingleJob } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import Navbar from './shared/Navbar';
+import Footer from './shared/Footer';
 import { ArrowLeft, MapPin, Briefcase, Calendar, Users, DollarSign, Award, ExternalLink } from 'lucide-react';
 import { Avatar, AvatarImage } from './ui/avatar';
 
@@ -80,9 +81,9 @@ const JobDescription = () => {
         : 'Recently';
 
     return (
-        <div className='min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300'>
+        <div className='min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300'>
             <Navbar />
-            <div className='w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-8'>
+            <div className='w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-8 flex-1'>
                 {/* Back button */}
                 <Link 
                     to="/jobs" 
@@ -256,6 +257,7 @@ const JobDescription = () => {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 };

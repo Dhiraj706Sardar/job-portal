@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Navbar from './shared/Navbar';
+import Footer from './shared/Footer';
 import FilterCard from './FilterCard';
 import Job from './Job';
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,7 +37,6 @@ const Jobs = () => {
         setCurrentPage(1);
     }, [allJobs, searchedQuery]);
 
-    // Pagination calculations
     const totalJobs = filterJobs.length;
     const totalPages = Math.ceil(totalJobs / JOBS_PER_PAGE);
     const startIndex = (currentPage - 1) * JOBS_PER_PAGE;
@@ -46,7 +46,6 @@ const Jobs = () => {
         <div className='min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors'>
             <Navbar />
             <div className='w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-8 flex-1'>
-                {/* Header Stats */}
                 <div className='flex items-center justify-between mb-6'>
                     <div>
                         <h1 className='text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white'>Browse Available Jobs</h1>
@@ -58,12 +57,9 @@ const Jobs = () => {
                 </div>
 
                 <div className='flex flex-col lg:flex-row gap-6 items-start'>
-                    {/* Filter Sidebar */}
                     <div className='w-full lg:w-80 flex-shrink-0 lg:sticky lg:top-20'>
                         <FilterCard />
                     </div>
-
-                    {/* Jobs Grid / Empty State */}
                     <div className='flex-1 w-full'>
                         {filterJobs.length === 0 ? (
                             <div className='bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-12 text-center shadow-sm flex flex-col items-center justify-center my-6'>
@@ -99,7 +95,6 @@ const Jobs = () => {
                                     </AnimatePresence>
                                 </div>
 
-                                {/* Pagination Controls */}
                                 {totalPages > 1 && (
                                     <div className='flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm'>
                                         <p className='text-xs text-slate-500 dark:text-slate-400'>
@@ -132,6 +127,7 @@ const Jobs = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };
